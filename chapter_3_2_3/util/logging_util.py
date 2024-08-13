@@ -2,7 +2,7 @@
 LoggingUtil Tool Class
 """
 import logging
-from chapter_2_3_3_log.config import project_config as conf
+from chapter_3_2_3.config import project_config as conf
 
 
 class LoggingUtil(object):

@@ -2,14 +2,14 @@ from chapter_2_3_4_db.util import str_util
 from chapter_2_3_4_db.config import project_config as conf
 
 
-class GoodsModel(object):
+class ProductsModel(object):
     """
-    goods information model class
+    products information model class
     """
 
     def __init__(self, data_tuple: tuple):
         """
-        Use the goods barcode library field information as attributes
+        Use the product barcode library field information as attributes
         The data is sent to data_tuple as a tuple => ('123987002321',
             'machine', '', '', '', 'pcs',
             'null', 0.0000, 0.0000, '2024-09-19 13:32:53', '', 0, 'null', 'null')
@@ -33,7 +33,7 @@ class GoodsModel(object):
         """
         Generate SQL statement to insert data
         """
-        sql = f"REPLACE INTO {conf.target_goods_table_name}(" \
+        sql = f"REPLACE INTO {conf.target_products_table_name}(" \
               f"code,name,spec,trademark,addr,units,factory_name,trade_price," \
               f"retail_price,update_at,wholeunit,wholenum,img,src) VALUES(" \
               f"'{self.code}', " \

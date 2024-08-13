@@ -1,5 +1,5 @@
 import pymysql
-from chapter_2_3_3_log.util import logging_util
+from chapter_3_2_3.util import logging_util
 
 # Create a log object to generate log information
 logger = logging_util.init_logger('mysql')
@@ -100,7 +100,7 @@ class MysqlUtil(object):
         self.select_db(db_name)
         # Define SQL statement, show tables to view all data table information
         sql = "show tables;"
-        # Execute SQL query, call its own query method and pass in the sql parameter
+        # Execute SQL query, call its own query method and pass in the tables.sql parameter
         result = self.query(sql)
         # Determine whether tb_name exists in the above query results and return a Boolean value
         return (tb_name,) in result
@@ -115,6 +115,7 @@ class MysqlUtil(object):
         """
         if not self.check_table_exists(db_name, tb_name):
             sql = f'create table {tb_name}({tb_cols}) engine=innodb default charset=utf8;'
+            print(sql)
             self.execute(sql)
             logger.info(f'{tb_name} has been created successfully in database {db_name}')
         else:
@@ -159,7 +160,7 @@ class MysqlUtil(object):
         try:
             self.conn.cursor().execute(sql)
         except Exception as e:
-            logger.warning(f'sql is : {sql}')
+            logger.warning(f'tables.sql is : {sql}')
             logger.error(f'{sql} Insert statement execution exception, error message: {e}')
             raise e
         logger.info(f'{sql} Insert statement executed successfully without any exception')

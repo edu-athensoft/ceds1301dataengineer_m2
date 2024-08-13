@@ -23,7 +23,7 @@ target_data_db = "data_warehouse"
 
 # ################## --Order JSON data collection configuration items-- ####################
 # File path of JSON order data source
-json_data_path = '/Users/kevin/workspace/python/etl/json/'
+json_data_path = '/Users/kevin/workspace/python/etl/etl/chapter_2_3_5_file/file/json/'
 
 # ################### --Order JSON data collection configuration items-- ###################
 # Collect order JSON data, metadata table configuration items
@@ -47,9 +47,6 @@ target_orders_table_create_cols = \
     f"store_category VARCHAR(10) COMMENT 'Store type (normal, test)', " \
     f"store_address VARCHAR(255) COMMENT 'Store address', " \
     f"store_shop_no VARCHAR(255) COMMENT 'Store third-party payment ID', " \
-    f"store_province VARCHAR(10) COMMENT 'Store province', " \
-    f"store_city VARCHAR(10) COMMENT 'Store city', " \
-    f"store_district VARCHAR(10) COMMENT 'Store district', " \
     f"store_gps_name VARCHAR(255) COMMENT 'Store gps name', " \
     f"store_gps_address VARCHAR(255) COMMENT 'Store gps address', " \
     f"store_gps_longitude VARCHAR(255) COMMENT 'Store gps longitude', " \
@@ -76,6 +73,7 @@ target_orders_table_create_cols = \
     f"payment_scenarios VARCHAR(15) COMMENT 'payment description (useless)', " \
     f"product_count INT COMMENT 'How many products were sold in this order', " \
     f"date_ts timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Order time', " \
+    f"user_id INT , " \
     f"INDEX (receivable), INDEX (date_ts)"
 
 # Order details table name
@@ -91,4 +89,5 @@ target_orders_detail_table_create_cols = \
     f"trade_price DECIMAL(10, 5) COMMENT 'Trade price (purchase price)', " \
     f"category_id INT COMMENT 'Product category ID', " \
     f"unit_id INT COMMENT 'Product unit ID (package, bag, box, etc.)', " \
+    f"product_id INT, " \
     f"PRIMARY KEY (order_id, barcode)"

@@ -6,7 +6,7 @@ from chapter_2_3_5_file.util import logging_util
 from chapter_2_3_5_file.model.orders_model import AnalysisOrderModel
 from chapter_2_3_5_file.config import project_config as conf
 
-logger = logging_util.init_logger('logs_collect')
+logger = logging_util.init_logger('json_collect')
 
 # Record collection start time
 start_time = time.time()
@@ -61,17 +61,22 @@ target_util.check_table_exists_and_create(
 json_file_count = 0
 # Iterate through the JSON files to be processed
 for json_file in new_json_files:
-    json_file_count += 1
-    data_count = 0
+    try:
+        data_count = 0
 
-    #  Read JSON file line by line and create data model
-    for json_data in open(json_file, 'r', encoding='utf-8'):
-        data_count += 1
+        #  Read JSON file line by line and create data model
+        for json_data in open(json_file, 'r', encoding='utf-8'):
+            data_count += 1
 
-        model = AnalysisOrderModel(json_data)
+            model = AnalysisOrderModel(json_data)
 
-        target_util.insert_sql(model.order_model.generate_order_insert_sql())
-        target_util.insert_sql(model.order_detail_model.generate_order_detail_insert_sql())
+            target_util.insert_sql(model.order_model.generate_order_insert_sql())
+            target_util.insert_sql(model.order_detail_model.generate_order_detail_insert_sql())
+
+        json_file_count += 1
+    except Exception as e:
+        logger.error(f"Error processing message: {e}")
+        continue  # Skip the problematic message and continue processing the next message
 
     # Record the collected files in the metadata table
     json_file = json_file.replace('\\', '/')

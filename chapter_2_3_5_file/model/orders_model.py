@@ -18,9 +18,7 @@ class OrdersModel(object):
         self.discount_rate = data['discountRate']  # Discount rate
         self.store_shop_no = data['storeShopNo']  # Store number (useless column)
         self.day_order_seq = data['dayOrderSeq']  # This order is the order of the day
-        self.store_district = data['storeDistrict']  # Administrative district where the store is located
         self.is_signed = data['isSigned']  # Whether the store is signed (signed with a third-party payment system)
-        self.store_province = data['storeProvince']  # Province where the store is located
         self.origin = data['origin']  # Original information (useless)
         self.store_gps_longitude = data['storeGPSLongitude']  # Store GPS longitude
         self.discount = data['discount']  # Discount amount
@@ -53,14 +51,14 @@ class OrdersModel(object):
         self.payed_total = data['payedTotal']  # Paid amount
         self.store_gps_latitude = data['storeGPSLatitude']  # Store GPS latitude
         self.store_create_date_ts = data['storeCreateDateTS']  # Store creation time
-        self.store_city = data['storeCity']  # Store city
         self.member_id = data['memberID']  # Member ID
+        self.user_id = data['custom_id']
 
     def generate_order_insert_sql(self):
         """
         Generate SQL statement to insert data
         """
-        return f"insert ignore into {conf.target_orders_table_name}(order_id,store_id,store_name,store_status,store_own_user_id,store_own_user_name,store_own_user_tel,store_category,store_address,store_shop_no,store_province,store_city,store_district,store_gps_name,store_gps_address,store_gps_longitude,store_gps_latitude,is_signed,operator,operator_name,face_id,member_id,store_create_date_ts,origin,day_order_seq,discount_rate,discount_type,discount,money_before_whole_discount,receivable,erase,small_change,total_no_discount,pay_total,pay_type,payment_channel,payment_scenarios,product_count,date_ts) values (" \
+        return f"insert ignore into {conf.target_orders_table_name}(order_id,store_id,store_name,store_status,store_own_user_id,store_own_user_name,store_own_user_tel,store_category,store_address,store_shop_no,store_gps_name,store_gps_address,store_gps_longitude,store_gps_latitude,is_signed,operator,operator_name,face_id,member_id,store_create_date_ts,origin,day_order_seq,discount_rate,discount_type,discount,money_before_whole_discount,receivable,erase,small_change,total_no_discount,pay_total,pay_type,payment_channel,payment_scenarios,product_count,date_ts,user_id) values (" \
                f"'{self.order_id}'," \
                f"{self.store_id}," \
                f"{str_util.check_str_null_and_transform_to_sql_null(self.store_name)}," \
@@ -71,9 +69,6 @@ class OrdersModel(object):
                f"{str_util.check_str_null_and_transform_to_sql_null(self.store_category)}," \
                f"{str_util.check_str_null_and_transform_to_sql_null(self.store_address)}," \
                f"{str_util.check_str_null_and_transform_to_sql_null(self.store_shop_no)}," \
-               f"{str_util.check_str_null_and_transform_to_sql_null(self.store_province)}," \
-               f"{str_util.check_str_null_and_transform_to_sql_null(self.store_city)}," \
-               f"{str_util.check_str_null_and_transform_to_sql_null(self.store_district)}," \
                f"{str_util.check_str_null_and_transform_to_sql_null(self.store_gps_name)}," \
                f"{str_util.check_str_null_and_transform_to_sql_null(self.store_gps_address)}," \
                f"{str_util.check_str_null_and_transform_to_sql_null(self.store_gps_longitude)}," \
@@ -99,7 +94,8 @@ class OrdersModel(object):
                f"{self.payment_channel}," \
                f"{str_util.check_str_null_and_transform_to_sql_null(self.payment_scenarios)}," \
                f"{self.product_count}," \
-               f"'{time_util.ts13_to_date_str(self.date_ts)}'" \
+               f"'{time_util.ts13_to_date_str(self.date_ts)}'," \
+               f"'{self.user_id}'" \
                f");"
 
 
@@ -119,6 +115,7 @@ class SingleProductSoldModel(object):
         self.trade_price = product_detail['tradePrice']
         self.category_id = product_detail['categoryID']
         self.unit_id = product_detail['unitID']
+        self.product_id = product_detail['product_id']
 
     def generate_value_segment_for_sql_insert(self):
         """
@@ -136,7 +133,8 @@ class SingleProductSoldModel(object):
                f"{self.retail_price}," \
                f"{self.trade_price}," \
                f"{self.category_id}," \
-               f"{self.unit_id}" \
+               f"{self.unit_id}," \
+               f"{self.product_id}" \
                f")"
 
 
@@ -163,10 +161,11 @@ class OrdersDetailModel(object):
         """
         Generate SQL statement to insert data
         """
-        sql = f"insert ignore into {conf.target_orders_detail_table_name}(order_id, barcode, name, count, price_per, retail_price, trade_price, category_id, unit_id) values "
+        sql = f"insert ignore into {conf.target_orders_detail_table_name}(order_id, barcode, name, count, price_per, retail_price, trade_price, category_id, unit_id, product_id) values "
 
         for single_product in self.products_detail:
             sql += single_product.generate_value_segment_for_sql_insert() + ', '
+            print()
 
         # In SQL, the last parenthesis in the statement has an extra comma + space , insert into T values(), (), (),
         # the last space is -1, the last comma is -2

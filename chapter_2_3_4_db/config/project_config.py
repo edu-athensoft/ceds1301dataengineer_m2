@@ -21,12 +21,12 @@ target_password = '123456'
 target_logs_db = "logs"
 target_data_db = "data_warehouse"
 
-# ################## --Database goods commodity data collection configuration item-- ###################
+# ################## --Database products commodity data collection configuration item-- ###################
 # Metadatabase configuration
-# Goods business: the name of the monitoring table for the update_at field
-metadata_goods_table_name = 'goods_monitor'
-# Goods business: column information of the table creation statement of the monitoring table of the update_at field
-metadata_goods_table_create_cols = "id INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Auto-increment ID', " \
+# Products business: the name of the monitoring table for the update_at field
+metadata_products_table_name = 'products_monitor'
+# Products business: column information of the table creation statement of the monitoring table of the update_at field
+metadata_products_table_create_cols = "id INT PRIMARY KEY AUTO_INCREMENT COMMENT 'Auto-increment ID', " \
                                    "time_record TIMESTAMP NOT NULL COMMENT 'The maximum time of this collection record', " \
                                    "gather_line_count INT NULL COMMENT 'The number of collection records this time'"
 
@@ -37,11 +37,11 @@ source_password = '123456'
 source_port = 3306
 source_data_db = 'source_data'
 # Data source table name
-source_goods_table_name = 'sys_goods'
+source_products_table_name = 'sys_products'
 
-# Barcode product table name
-target_goods_table_name = 'ods_sys_goods'
-target_goods_table_create_cols = "code varchar(50) PRIMARY KEY COMMENT 'Product barcode', " \
+# product table name
+target_products_table_name = 'ods_sys_products'
+target_products_table_create_cols = "code varchar(50) PRIMARY KEY COMMENT 'Product barcode', " \
                                  "name varchar(200) DEFAULT '' COMMENT 'Product name'," \
                                  "spec varchar(200) DEFAULT '' COMMENT 'Product specifications'," \
                                  "trademark varchar(100) DEFAULT '' COMMENT 'Product trademark'," \

@@ -100,7 +100,7 @@ class MysqlUtil(object):
         self.select_db(db_name)
         # Define SQL statement, show tables to view all data table information
         sql = "show tables;"
-        # Execute SQL query, call its own query method and pass in the sql parameter
+        # Execute SQL query, call its own query method and pass in the tables.sql parameter
         result = self.query(sql)
         # Determine whether tb_name exists in the above query results and return a Boolean value
         return (tb_name,) in result
@@ -159,7 +159,7 @@ class MysqlUtil(object):
         try:
             self.conn.cursor().execute(sql)
         except Exception as e:
-            logger.warning(f'sql is : {sql}')
+            logger.warning(f'tables.sql is : {sql}')
             logger.error(f'{sql} Insert statement execution exception, error message: {e}')
             raise e
         logger.info(f'{sql} Insert statement executed successfully without any exception')

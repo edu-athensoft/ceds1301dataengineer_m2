@@ -4,7 +4,7 @@ from chapter_2_3_6_stream.util import kafka_consumer_util
 from chapter_2_3_6_stream.util import logging_util
 from chapter_2_3_6_stream.util import mysql_util
 
-logger = logging_util.init_logger('logs_collect')
+logger = logging_util.init_logger('logs_kafka_collect')
 logger.info('Log collection started....')
 
 # Collect data for new access log files to be collected

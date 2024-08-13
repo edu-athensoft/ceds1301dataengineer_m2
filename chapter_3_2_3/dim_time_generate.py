@@ -1,4 +1,6 @@
-import pymysql
+"""
+生成dim_time维度表
+"""
 from datetime import datetime, timedelta
 
 from chapter_3_2_3.config import project_config as conf
@@ -22,30 +24,9 @@ target_util.check_table_exists_and_create(
     tb_cols=conf.target_dim_time_table_create_cols
 )
 
-# 连接到 MySQL 数据库
-# conn = pymysql.connect(
-#     host='localhost',
-#     user='root',
-#     password='123456',
-#     database='sales_data_warehouse'
-# )
-
 cursor = target_util.conn.cursor()
 
-# # 创建 TimeDim 表（如果尚不存在）
-# cursor.execute('''
-# CREATE TABLE IF NOT EXISTS TimeDim (
-#     TimeKey INT PRIMARY KEY,
-#     Date DATE,
-#     Year INT,
-#     Quarter INT,
-#     Month INT,
-#     Day INT,
-#     DayOfWeek VARCHAR(10)
-# )
-# ''')
-
-# 生成2023年到2024年的所有日期
+# Generate all dates from 2023 to 2024
 start_date = datetime(2023, 1, 1)
 end_date = datetime(2024, 12, 31)
 current_date = start_date
@@ -64,16 +45,16 @@ while current_date <= end_date:
     current_date += timedelta(days=1)
     time_key += 1
 
-# 批量插入数据
+# Insert data in batches
 cursor.executemany('''
-INSERT INTO dim_time (TimeKey, Date, Year, Quarter, Month, Day, DayOfWeek) 
+INSERT INTO dim_time (id, date, year, quarter, month, day, day_of_week) 
 VALUES (%s, %s, %s, %s, %s, %s, %s)
 ''', data)
 
-# 提交事务
+# commit transaction
 target_util.conn.commit()
 
-# 关闭连接
+# close connection
 target_util.conn.close()
 
-print("Data inserted successfully into dim_time table")
+logger.info("Data inserted successfully into dim_time table")
