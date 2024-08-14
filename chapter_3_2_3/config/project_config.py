@@ -106,7 +106,8 @@ target_dwd_sale_order_lifecycle_fact_table_create_cols = "id INT PRIMARY KEY AUT
                                                          "user_id INT, " \
                                                          "payments_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " \
                                                          "shipments_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  " \
-                                                         "completions_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP  "
+                                                         "completions_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  " \
+                                                         "pay_total DECIMAL(10, 5)"
 
 
 # Data source library configuration

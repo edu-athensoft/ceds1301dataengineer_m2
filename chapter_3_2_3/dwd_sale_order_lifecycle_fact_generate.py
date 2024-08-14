@@ -22,8 +22,8 @@ target_util.check_table_exists_and_create(
 cursor = target_util.conn.cursor()
 
 cursor.execute('''
-INSERT INTO dwd_sale_order_lifecycle_fact (order_id, user_id, payments_date, shipments_date, completions_date) 
-SELECT a.order_id, a.user_id, b.update_at as payments_date, c.update_at as shipments_date, d.update_at as completions_date
+INSERT INTO dwd_sale_order_lifecycle_fact (order_id, user_id, payments_date, shipments_date, completions_date, pay_total) 
+SELECT a.order_id, a.user_id, b.update_at as payments_date, c.update_at as shipments_date, d.update_at as completions_date, a.pay_total
 FROM ods_orders a, ods_order_payments b, ods_order_shipments c, ods_order_completions d
 WHERE a.order_id = b.order_id
 AND a.order_id = c.order_id

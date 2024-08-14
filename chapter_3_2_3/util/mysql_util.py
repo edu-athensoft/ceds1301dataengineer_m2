@@ -115,7 +115,7 @@ class MysqlUtil(object):
         """
         if not self.check_table_exists(db_name, tb_name):
             sql = f'create table {tb_name}({tb_cols}) engine=innodb default charset=utf8;'
-            print(sql)
+            logger.info(sql)
             self.execute(sql)
             logger.info(f'{tb_name} has been created successfully in database {db_name}')
         else:
