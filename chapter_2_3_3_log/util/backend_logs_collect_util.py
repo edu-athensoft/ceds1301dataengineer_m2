@@ -1,3 +1,4 @@
+import sys, os
 import time
 
 from chapter_2_3_3_log.util import mysql_util
@@ -8,6 +9,25 @@ from chapter_2_3_3_log.model.backend_logs_model import BackendLogsModel
 
 logger = logging_util.init_logger('logs_collect')
 logger.info('Log collection started....')
+
+
+# pyinstaller
+def app_path():
+    # Returns the base application path.
+    if hasattr(sys, 'frozen'):
+        # Handles PyInstaller
+        return sys.executable  #使用pyinstaller打包后的exe目录
+    return os.path.dirname(__file__)     #没打包前的py目录
+
+pj_path = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(app_path()))))
+logger.info(f"================Project dir is '{pj_path}'===============")
+
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS') or hasattr(sys, 'frozen'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+logger.info(f"================Project dir is '{resource_path(conf.logs_monitor_path)}'===============")
 
 # Collect data for new access log files to be collected
 # Create a target database connection
@@ -27,7 +47,7 @@ target_util.check_table_exists_and_create(
 start_time = time.time()
 
 # Get the log files under the background access log folder
-all_file_list = file_util.get_dir_files_list(conf.logs_monitor_path)
+all_file_list = file_util.get_dir_files_list(resource_path(conf.logs_monitor_path))
 
 # Query the collected log files in the metadata database table to compare and determine whether to collect new access log files
 # Creating a Metabase Connection
@@ -50,7 +70,7 @@ new_file_list = file_util.get_new_by_compare_lists(processed_file_list, all_file
 # What are the new files for recording collection?
 if not new_file_list:
     logger.info('Sorry, there is no logs to collect!')
-    exit('Sorry, there is no logs to collect!')
+    #exit('Sorry, there is no logs to collect!')
 else:
     logger.info(f'The files to be collected are {new_file_list}')
 

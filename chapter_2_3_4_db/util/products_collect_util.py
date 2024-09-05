@@ -55,7 +55,7 @@ source_products_table_results = source_util.query(sql)
 # Determine the number of collected data entries. If the number of entries is 0, exit the program
 if not source_products_table_results:
     logger.info('Sorry, there is no product data to collect!')
-    exit('Sorry, there is no product data to collect!')
+    #exit('Sorry, there is no product data to collect!')
 
 
 # Create a target database connection object
@@ -83,6 +83,8 @@ target_util.begin_transaction()
 
 start = time.time()
 
+model = None
+
 for row_data in source_products_table_results:
     data_count += 1
     try:
@@ -104,15 +106,18 @@ for row_data in source_products_table_results:
         # It is convenient to reopen the transaction in advance to prepare for the next transaction processing
         target_util.begin_transaction()
 
-# No matter how many data are left, manually submit a transaction
-target_util.commit_transaction()
+if model == None:
+    pass
+else:
+    # No matter how many data are left, manually submit a transaction
+    target_util.commit_transaction()
 
-sql = f"insert into {conf.metadata_products_table_name}(time_record, gather_line_count) values (" \
-      f"'{model.update_at}', {data_count % 100});"
-metadata_util.insert_sql(sql)
+    sql = f"insert into {conf.metadata_products_table_name}(time_record, gather_line_count) values (" \
+          f"'{model.update_at}', {data_count % 100});"
+    metadata_util.insert_sql(sql)
 
 end = time.time()
-logger.info(f'This time, a total of {data_count} records were collected, and the total time consumed was {end-start}s')
+logger.info(f'a total of {data_count} records were collected and the total time consumed was {end-start}s')
 
 # Close the database connection
 target_util.close()

@@ -25,7 +25,7 @@ class KConsumer(object):
         3. Manually set the offset
         :param topics: Kafka consumer topics
         :param bootstrap_server: Kafka consumer address
-        :param group_id: The consumer group id of kafka, the default is start_task, which is mainly the consumer who receives and starts the task, and there is only one consumer group id;
+        :param group_id: The consumer group id of kafka, the default is start_task, which is mainly the consumer who receives and starts the task_log, and there is only one consumer group id;
         :param partitions: Consumed partitions. When partitions are not used, the default read is all partitions.
         :param kwargs: Other native Kafka consumer parameters
         """
