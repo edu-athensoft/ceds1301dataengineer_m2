@@ -24,6 +24,7 @@ target_util.check_table_exists_and_create(
 kafka_consumer = kafka_consumer_util.KConsumer()
 for stream_data in kafka_consumer.recv():
     try:
+        logger.info(stream_data["value"])
         backend_log_model = BackendLogsModel(stream_data["value"])
         target_util.insert_sql(backend_log_model.insert_sql())
     except Exception as e:

@@ -1,17 +1,28 @@
+import os
+import sys
 import time
 
-from chapter_2_3_5_file.util import file_util
-from chapter_2_3_5_file.util import mysql_util
-from chapter_2_3_5_file.util import logging_util
-from chapter_2_3_5_file.model.orders_model import AnalysisOrderModel
 from chapter_2_3_5_file.config import project_config as conf
+from chapter_2_3_5_file.model.orders_model import AnalysisOrderModel
+from chapter_2_3_5_file.util import file_util
+from chapter_2_3_5_file.util import logging_util
+from chapter_2_3_5_file.util import mysql_util
 
 logger = logging_util.init_logger('json_collect')
+
+
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS') or hasattr(sys, 'frozen'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+
+logger.info(f"================Project dir is '{resource_path(conf.json_data_path)}'===============")
 
 # Record collection start time
 start_time = time.time()
 # Get the order JSON files under the order folder
-all_json_files = file_util.get_dir_files_list(conf.json_data_path)
+all_json_files = file_util.get_dir_files_list(resource_path(conf.json_data_path))
 
 # Query the order JSON files that have been collected in the metadata database table to compare
 # and determine whether to collect new order JSON files
@@ -35,7 +46,6 @@ result = metadata_util.query(sql)  # ((1, 'x00'), (2, 'x01'), (3, 'x02'))
 processed_json_files = [i[1] for i in result]
 # Compare and determine the new order files to be collected
 new_json_files = file_util.get_new_by_compare_lists(processed_json_files, all_json_files)
-
 
 # Collect data for the new order JSON file to be collected
 # Create a target database connection object
@@ -88,9 +98,8 @@ for json_file in new_json_files:
 
 # Record end time
 end_time = time.time()
-logger.info(f'This collection collected {json_file_count} files in total, and took {end_time-start_time}s')
+logger.info(f'This collection collected {json_file_count} files in total, and took {end_time - start_time}s')
 
 # Close the file and database connection
 target_util.close()
 metadata_util.close()
-
