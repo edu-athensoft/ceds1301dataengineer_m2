@@ -1,5 +1,5 @@
 """
-ads_car_charging_stats_m collection tools
+ads_car_charging_stats collection tools
 """
 import time
 
@@ -8,8 +8,8 @@ from chapter_5.util import logging_util
 from chapter_5.model.ads_car_charging_model import CarChargingStatsModel
 from chapter_5.config import project_config as conf
 
-logger = logging_util.init_logger('ads_car_charging_stats_m')
-logger.info('ads_car_charging_stats_m data collection starts...')
+logger = logging_util.init_logger('ads_car_charging_stats')
+logger.info('ads_car_charging_stats data collection starts...')
 
 # Create a data source database connection object
 source_util = mysql_util.get_mysql_util(
@@ -22,7 +22,7 @@ if not source_util.check_table_exists(conf.source_data_db, conf.source_dws_car_c
     logger.error('Sorry, the product source database table you want to access does not exist!')
     exit('Sorry, the product source database table you want to access does not exist!')
 
-source_car_charging_stats_table_results = source_util.query(conf.target_ads_car_charging_stats_m_table_select_sql)
+source_car_charging_stats_table_results = source_util.query(conf.target_ads_car_charging_stats_table_select_sql)
 # Determine the number of collected data entries. If the number of entries is 0, exit the program
 if not source_car_charging_stats_table_results:
     logger.info('Sorry, there is no product data to collect!')
@@ -37,11 +37,11 @@ target_util = mysql_util.get_mysql_util(
 # Check if the target database table exists, and create it if it does not exist
 target_util.check_table_exists_and_create(
     db_name=conf.target_data_db,
-    tb_name=conf.target_ads_car_charging_stats_m_table_name,
-    tb_cols=conf.target_ads_car_charging_stats_m_table_create_cols
+    tb_name=conf.target_ads_car_charging_stats_table_name,
+    tb_cols=conf.target_ads_car_charging_stats_table_create_cols
 )
 
-source_util.query(conf.target_ads_car_charging_stats_m_table_delete_sql)
+source_util.query(conf.target_ads_car_charging_stats_table_delete_sql)
 
 # Transaction processing function implementation
 # 1. Open the transaction

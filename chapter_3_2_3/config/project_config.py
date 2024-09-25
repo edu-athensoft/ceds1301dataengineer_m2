@@ -9,7 +9,7 @@ log_name = f"pyetl-{time.strftime('%Y-%m-%d_%H', time.localtime())}.log"
 target_host = 'localhost'
 target_port = 3306
 target_user = 'root'
-target_password = '123456'
+target_password = '12345678'
 target_logs_db = "logs"
 target_data_db = "data_warehouse"
 
@@ -113,7 +113,7 @@ target_dwd_sale_order_lifecycle_fact_table_create_cols = "id INT PRIMARY KEY AUT
 # Data source library configuration
 source_host = 'localhost'
 source_user = 'root'
-source_password = '123456'
+source_password = '12345678'
 source_port = 3306
 source_data_db = 'source_data'
 # Data source table name
@@ -125,7 +125,7 @@ source_order_completions_table_name = 'order_completions'
 metadata_host = 'localhost'
 metadata_port = 3306
 metadata_user = 'root'
-metadata_password = '123456'
+metadata_password = '12345678'
 metadata_db = 'metadata'
 
 # order_payments business: the name of the monitoring table for the update_at field

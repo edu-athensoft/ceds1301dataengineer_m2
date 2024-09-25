@@ -21,7 +21,7 @@ class CarChargingStatsModel(object):
         """
         Generate SQL statement to insert data
         """
-        sql = f"REPLACE INTO {conf.target_ads_car_charging_stats_m_table_name} {conf.target_ads_car_charging_stats_m_table_insert_cols}" \
+        sql = f"REPLACE INTO {conf.target_ads_car_charging_stats_table_name} {conf.target_ads_car_charging_stats_table_insert_cols}" \
               f"VALUES(" \
               f"'{self.time_window}', " \
               f"'{self.vin}'," \

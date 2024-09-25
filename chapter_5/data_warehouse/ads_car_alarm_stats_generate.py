@@ -8,8 +8,8 @@ from chapter_5.util import logging_util
 from chapter_5.model.ads_car_alarm_model import CarAlarmStatsModel
 from chapter_5.config import project_config as conf
 
-logger = logging_util.init_logger('ads_car_alarm_stats_d')
-logger.info('ads_car_alarm_stats_d data collection starts...')
+logger = logging_util.init_logger('ads_car_alarm_stats')
+logger.info('ads_car_alarm_stats data collection starts...')
 
 # Create a data source database connection object
 source_util = mysql_util.get_mysql_util(

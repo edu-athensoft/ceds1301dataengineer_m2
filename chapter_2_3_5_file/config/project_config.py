@@ -10,14 +10,14 @@ log_name = f"pyetl-{time.strftime('%Y-%m-%d_%H', time.localtime())}.log"
 metadata_host = 'localhost'
 metadata_port = 3306
 metadata_user = 'root'
-metadata_password = '123456'
+metadata_password = '12345678'
 metadata_db = 'metadata'
 
 # Target database configuration
 target_host = 'localhost'
 target_port = 3306
 target_user = 'root'
-target_password = '123456'
+target_password = '12345678'
 target_logs_db = "logs"
 target_data_db = "data_warehouse"
 

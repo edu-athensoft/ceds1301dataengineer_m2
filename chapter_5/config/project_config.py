@@ -12,14 +12,14 @@ batch_commit = 1000
 metadata_host = 'localhost'
 metadata_port = 3306
 metadata_user = 'root'
-metadata_password = '123456'
+metadata_password = '12345678'
 metadata_db = 'metadata'
 
 # Source database configuration
 source_host = 'localhost'
 source_port = 3306
 source_user = 'root'
-source_password = '123456'
+source_password = '12345678'
 source_logs_db = "logs"
 source_data_db = "data_warehouse"
 source_ods_car_data_logs_table_name = 'ods_car_data_logs'
@@ -34,7 +34,7 @@ source_dws_car_charging_d_table_name = 'dws_car_charging_stats_d'
 target_host = 'localhost'
 target_port = 3306
 target_user = 'root'
-target_password = '123456'
+target_password = '12345678'
 target_logs_db = "logs"
 target_data_db = "data_warehouse"
 
@@ -378,7 +378,7 @@ target_dws_car_alarm_stats_d_table_create_cols = \
     "engine_alarm_count     INT DEFAULT NULL COMMENT '发动机报警次数'," \
     "other_alarm_count      INT DEFAULT NULL COMMENT '其他报警次数'," \
     "INDEX (vin), INDEX(date_ts) " \
-    ") engine=innodb default charset=utf8 COMMENT='充电单日累计表';"
+    ") engine=innodb default charset=utf8 COMMENT='故障告警单日累计表';"
 
 target_dws_car_alarm_stats_d_table_select_cols = \
     "(vin,DATE(date_ts) AS date_ts," \
@@ -495,8 +495,8 @@ target_ads_car_electric_driving_stats_m_table_delete_sql = "truncate table ads_c
 target_ads_car_electric_driving_stats_m_table_insert_cols = "(vin,date_ts,avg_velocity,total_mileage,avg_voltage,max_temperature,car_status,charge_status,execution_mode)"
 
 
-target_ads_car_charging_stats_m_table_name = "ads_car_charging_stats_m"
-target_ads_car_charging_stats_m_table_create_cols = \
+target_ads_car_charging_stats_table_name = "ads_car_charging_stats"
+target_ads_car_charging_stats_table_create_cols = \
     "id                       BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, " \
     "time_window              VARCHAR(50) NOT NULL COMMENT '车辆唯一标识'," \
     "vin                      VARCHAR(50) DEFAULT NULL COMMENT '汽车唯一ID'," \
@@ -505,7 +505,7 @@ target_ads_car_charging_stats_m_table_create_cols = \
     "INDEX (vin) " \
     ") engine=innodb default charset=utf8 COMMENT='车辆充电最近1/7/30天累计表';"
 
-target_ads_car_charging_stats_m_table_select_sql = \
+target_ads_car_charging_stats_table_select_sql = \
     "SELECT '1D' AS time_window,vin,COUNT(*) AS charging_count,SUM(charge_duration) AS total_charge_duration " \
     "FROM dws_car_charging_stats_d " \
     "WHERE charge_end_time >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY) " \
@@ -521,5 +521,5 @@ target_ads_car_charging_stats_m_table_select_sql = \
     "WHERE charge_end_time >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) " \
     "GROUP BY vin"
 
-target_ads_car_charging_stats_m_table_delete_sql = "truncate table ads_car_charging_stats_m"
-target_ads_car_charging_stats_m_table_insert_cols = "(time_window,vin,charging_count,total_charge_duration)"
+target_ads_car_charging_stats_table_delete_sql = "truncate table ads_car_charging_stats"
+target_ads_car_charging_stats_table_insert_cols = "(time_window,vin,charging_count,total_charge_duration)"
