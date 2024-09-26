@@ -394,7 +394,7 @@ target_dws_car_alarm_stats_d_table_select_cols = \
 target_dws_car_alarm_stats_d_table_insert_cols = "(vin,date_ts,total_alarm_count,alarm_level_1_count,alarm_level_2_count,alarm_level_3_count,battery_alarm_count,motor_alarm_count,engine_alarm_count,other_alarm_count)"
 
 
-# ################## -- datawarehouse DWS configuration items-- ###################
+# ################## -- datawarehouse ADS configuration items-- ###################
 target_ads_car_alarm_stats_table_name = "ads_car_alarm_stats"
 target_ads_car_alarm_stats_table_create_cols = \
     "id                     BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, " \
