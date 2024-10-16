@@ -17,7 +17,7 @@ with DAG(
 
     file_collect_util_task = BashOperator(
         task_id='file_collect_util_task',
-        bash_command='/Users/kevin/workspace/tools/airflow/dags/chapter_2_3_5_file/dist/order_json_collect',
+        bash_command='/Users/kevin/workspace/tools/airflow/dags/chapter_2_3_3_file/dist/order_json_collect',
     )
 
     end = BashOperator(

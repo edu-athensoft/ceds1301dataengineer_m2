@@ -17,7 +17,7 @@ with DAG(
 
     products_collect_util_task = BashOperator(
         task_id='products_collect_util_task',
-        bash_command='/Users/kevin/workspace/tools/airflow/dags/chapter_2_3_4_db/dist/products_collect_util',
+        bash_command='/Users/kevin/workspace/tools/airflow/dags/chapter_2_3_2_db/dist/products_collect_util',
     )
 
     end = BashOperator(

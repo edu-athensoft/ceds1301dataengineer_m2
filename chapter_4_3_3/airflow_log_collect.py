@@ -13,11 +13,11 @@ with DAG(
 ) as dag:
     backend_logs_generate_util_task = BashOperator(
         task_id='backend_logs_generate_util_task',
-        bash_command='/Users/kevin/workspace/tools/airflow/dags/chapter_2_3_3_log/dist/backend_logs_generate_util',
+        bash_command='/Users/kevin/workspace/tools/airflow/dags/chapter_2_3_1_log/dist/backend_logs_generate_util',
     )
     backend_logs_collect_util_task = BashOperator(
         task_id='backend_logs_collect_util_task',
-        bash_command='/Users/kevin/workspace/tools/airflow/dags/chapter_2_3_3_log/dist/backend_logs_collect_util',
+        bash_command='/Users/kevin/workspace/tools/airflow/dags/chapter_2_3_1_log/dist/backend_logs_collect_util',
     )
     backend_logs_generate_util_task >> backend_logs_collect_util_task
 

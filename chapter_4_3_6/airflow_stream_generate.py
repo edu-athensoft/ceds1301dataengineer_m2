@@ -17,7 +17,7 @@ with DAG(
 
     stream_logs_generate_util_task = BashOperator(
         task_id='stream_logs_generate_util_task',
-        bash_command='/Users/kevin/workspace/tools/airflow/dags/chapter_2_3_6_stream/dist/realtime_logs_generate_util',
+        bash_command='/Users/kevin/workspace/tools/airflow/dags/chapter_2_3_4_stream/dist/realtime_logs_generate_util',
     )
 
     end = BashOperator(
