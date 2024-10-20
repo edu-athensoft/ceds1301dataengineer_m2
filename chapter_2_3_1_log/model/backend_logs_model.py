@@ -17,7 +17,7 @@ class BackendLogsModel(object):
         self.log_time = data[0]
         self.log_level = data[1].strip('[]')
         self.log_module = data[2]
-        self.response_time = data[3][5:-2]
+        self.response_time = data[3][14:-2]
         self.province = data[4]
         self.city = data[5]
         self.log_text = data[6]
