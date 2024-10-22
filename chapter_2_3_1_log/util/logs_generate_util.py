@@ -44,9 +44,9 @@ def get_log_str():
     log_level = log_level_array[random.randint(0, len(log_level_array) - 1)]
     file_name = module_name[random.randint(0, len(module_name) - 1)]
     response_time = random.randint(1, 9999)
-    province = visitor_state[random.randint(0, len(visitor_state) - 1)]
-    city = visitor_areas[province][random.randint(0, len(visitor_areas[province]) - 1)]
-    log_str = f"{date_str}\t[{log_level}]\t{file_name}\tResponse Time:{response_time}ms\t{province}\t{city}\t" \
+    state = visitor_state[random.randint(0, len(visitor_state) - 1)]
+    city = visitor_areas[state][random.randint(0, len(visitor_areas[state]) - 1)]
+    log_str = f"{date_str}\t[{log_level}]\t{file_name}\tResponse Time:{response_time}ms\t{state}\t{city}\t" \
               f"log info......"
     return log_str
 
