@@ -17,7 +17,7 @@ log_level_array = ['WARN', 'WARN', 'WARN', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO
                    'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO',
                    'ERROR']
 
-backend_files_name = ['logout.py', 'logout.py', 'logout.py',
+module_name = ['logout.py', 'logout.py', 'logout.py',
                       'orders.py', 'orders.py', 'orders.py', 'orders.py',
                       'manager.py', 'manager.py',
                       'user.py', 'user.py', 'user.py',
@@ -32,10 +32,7 @@ visitor_areas = {
     'Illinois': ['Chicago', 'Aurora'],
     'New York': ['New York City', 'Buffalo']
 }
-visitor_province = ['California', 'Texas', 'Arizona', 'Illinois', 'New York']
-
-response_flag = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0]
-response_for_error_flag = [1, 1, 1, 1, 1, 0]
+visitor_state = ['California', 'Texas', 'Arizona', 'Illinois', 'New York']
 
 
 def get_log_str():
@@ -45,18 +42,9 @@ def get_log_str():
     """
     date_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
     log_level = log_level_array[random.randint(0, len(log_level_array) - 1)]
-    file_name = backend_files_name[random.randint(0, len(backend_files_name) - 1)]
-    if not log_level == "ERROR":
-        if response_flag[random.randint(0, len(response_flag) - 1)] == 1:
-            response_time = random.randint(0, 1000)
-        else:
-            response_time = random.randint(1000, 9999)
-    else:
-        if response_for_error_flag[random.randint(0, len(response_for_error_flag) - 1)] == 1:
-            response_time = random.randint(0, 1000)
-        else:
-            response_time = random.randint(1000, 9999)
-    province = visitor_province[random.randint(0, len(visitor_province) - 1)]
+    file_name = module_name[random.randint(0, len(module_name) - 1)]
+    response_time = random.randint(1, 9999)
+    province = visitor_state[random.randint(0, len(visitor_state) - 1)]
     city = visitor_areas[province][random.randint(0, len(visitor_areas[province]) - 1)]
     log_str = f"{date_str}\t[{log_level}]\t{file_name}\tResponse Time:{response_time}ms\t{province}\t{city}\t" \
               f"log info......"

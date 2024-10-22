@@ -2,7 +2,6 @@ import unittest
 import logging
 from chapter_2_3_1_log.util import logging_util
 
-
 class TestLoggingUtil(unittest.TestCase):
     """
     Define a test class
