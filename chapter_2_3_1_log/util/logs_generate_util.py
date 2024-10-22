@@ -59,6 +59,7 @@ for i in range(0, generate_files):
 
             f.write(log_str)
             f.write("\n")
-            logger.info(f"The writing of the {i + 1}th file is completed, the file is: {write_file_path}, the number of lines: {single_log_lines}")
+
+    logger.info(f"The writing of the {i + 1}th file is completed, the file is: {write_file_path}, the number of lines: {single_log_lines}")
 
     time.sleep(1)
