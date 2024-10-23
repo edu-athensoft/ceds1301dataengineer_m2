@@ -27,7 +27,7 @@ class LogsModel(object):
         Generate SQL statement to insert data
         """
         return f'insert into {conf.target_logs_table_name}(' \
-               f'log_time, log_level, log_module, response_time, province, city, log_text)' \
+               f'log_time, log_level, log_module, response_time, state, city, log_text)' \
                f' values("{self.log_time}",' \
                f'"{self.log_level}",' \
                f'"{self.log_module}",' \

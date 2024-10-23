@@ -38,7 +38,7 @@ target_logs_table_create_cols = "id int PRIMARY KEY AUTO_INCREMENT COMMENT 'Auto
                                 "log_level VARCHAR(10) COMMENT 'Log level', " \
                                 "log_module VARCHAR(50) COMMENT 'Function module name for output log', " \
                                 "response_time INT COMMENT 'Interface response time in milliseconds', " \
-                                "province VARCHAR(30) COMMENT 'Visitor province', " \
+                                "state VARCHAR(30) COMMENT 'Visitor state', " \
                                 "city VARCHAR(30) COMMENT 'Visitor city', " \
                                 "log_text VARCHAR(255) COMMENT 'Log text', " \
                                 "INDEX(log_time)"
