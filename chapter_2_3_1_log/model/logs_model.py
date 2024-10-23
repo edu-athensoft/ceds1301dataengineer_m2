@@ -18,7 +18,7 @@ class LogsModel(object):
         self.log_level = data[1].strip('[]')
         self.log_module = data[2]
         self.response_time = data[3][14:-2]
-        self.province = data[4]
+        self.state = data[4]
         self.city = data[5]
         self.log_text = data[6]
 
@@ -32,6 +32,6 @@ class LogsModel(object):
                f'"{self.log_level}",' \
                f'"{self.log_module}",' \
                f'"{self.response_time}",' \
-               f'"{self.province}",' \
+               f'"{self.state}",' \
                f'"{self.city}",' \
                f'"{self.log_text}");'
