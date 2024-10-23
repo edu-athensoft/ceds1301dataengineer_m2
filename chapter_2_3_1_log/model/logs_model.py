@@ -1,7 +1,7 @@
 from chapter_2_3_1_log.config import project_config as conf
 
 
-class BackendLogsModel(object):
+class LogsModel(object):
     """
     Log information model class
     """

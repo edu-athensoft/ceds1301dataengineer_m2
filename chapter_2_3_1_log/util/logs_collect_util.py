@@ -5,7 +5,7 @@ from chapter_2_3_1_log.util import mysql_util
 from chapter_2_3_1_log.util import file_util
 from chapter_2_3_1_log.util import logging_util
 from chapter_2_3_1_log.config import project_config as conf
-from chapter_2_3_1_log.model.backend_logs_model import BackendLogsModel
+from chapter_2_3_1_log.model.logs_model import LogsModel
 
 logger = logging_util.init_logger('logs_collect')
 logger.info('Log collection started....')
@@ -81,7 +81,7 @@ for file_path in new_file_list:
     row_total = 0
     try:
         for row_content in open(file_path, 'r', encoding='utf8'):
-            backend_log_model = BackendLogsModel(row_content)
+            backend_log_model = LogsModel(row_content)
             target_util.insert_sql_without_commit(backend_log_model.insert_sql())
             row_total += 1
     except Exception as e:
