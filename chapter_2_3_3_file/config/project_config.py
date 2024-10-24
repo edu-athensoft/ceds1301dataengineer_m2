@@ -23,7 +23,7 @@ target_data_db = "data_warehouse"
 
 # ################## --Order JSON data collection configuration items-- ####################
 # File path of JSON order data source
-json_data_path = '/chapter_2_3_3_file/file/json/'
+json_data_path = '/Users/kevin/workspace/python/etl/etl/chapter_2_3_3_file/file/json/'
 
 # ################### --Order JSON data collection configuration items-- ###################
 # Collect order JSON data, metadata table configuration items

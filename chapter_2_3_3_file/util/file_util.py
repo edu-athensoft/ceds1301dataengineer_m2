@@ -6,9 +6,9 @@ import os
 
 def get_dir_files_list(path='./', recursion=False):
     """
-    采集指定目录下的文件信息
-    :param path: 获取文件列表的目标路径
-    :param recursion: bool类型，是否在获取文件列表过程中递归；不加这个参数，默认只会采集1.txt/2.txt
+    Collect file information from the specified directory
+    :param path: Retrieve the target path for the file list
+    :param recursion: Is the boolean type recursive during the process of obtaining the file list
     :return:
     """
     path_list = []
@@ -32,7 +32,6 @@ def get_dir_files_list(path='./', recursion=False):
     return path_list
 
 
-# 3、封装第二个函数，用于获取还未采集的文件信息
 def get_new_by_compare_lists(processed_list, all_list):
     """
     Get all the unprocessed file path information in the file path

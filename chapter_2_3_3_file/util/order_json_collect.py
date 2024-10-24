@@ -3,7 +3,7 @@ import sys
 import time
 
 from chapter_2_3_3_file.config import project_config as conf
-from chapter_2_3_3_file.model.orders_model import AnalysisOrderModel
+from chapter_2_3_3_file.model.orders_model import OrderModelParser
 from chapter_2_3_3_file.util import file_util
 from chapter_2_3_3_file.util import logging_util
 from chapter_2_3_3_file.util import mysql_util
@@ -42,10 +42,10 @@ metadata_util.check_table_exists_and_create(
 
 # Get the list of Json file paths that have been collected in the metadata
 sql = f"select * from {conf.orders_json_file_monitor_meta_table_name}"
-result = metadata_util.query(sql)  # ((1, 'x00'), (2, 'x01'), (3, 'x02'))
-processed_json_files = [i[1] for i in result]
+processed_json_files_result = metadata_util.query(sql)  # ((1, 'x00'), (2, 'x01'), (3, 'x02'))
+processed_json_files_names = [i[1] for i in processed_json_files_result]
 # Compare and determine the new order files to be collected
-new_json_files = file_util.get_new_by_compare_lists(processed_json_files, all_json_files)
+new_json_files = file_util.get_new_by_compare_lists(processed_json_files_names, all_json_files)
 
 # Collect data for the new order JSON file to be collected
 # Create a target database connection object
@@ -78,10 +78,10 @@ for json_file in new_json_files:
         for json_data in open(json_file, 'r', encoding='utf-8'):
             data_count += 1
 
-            model = AnalysisOrderModel(json_data)
+            order_model = OrderModelParser(json_data)
 
-            target_util.insert_sql(model.order_model.generate_order_insert_sql())
-            target_util.insert_sql(model.order_detail_model.generate_order_detail_insert_sql())
+            target_util.insert_sql(order_model.order_model.generate_order_insert_sql())
+            target_util.insert_sql(order_model.order_detail_model.generate_order_details_insert_sql())
 
         json_file_count += 1
     except Exception as e:
