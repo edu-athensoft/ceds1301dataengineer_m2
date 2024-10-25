@@ -89,7 +89,7 @@ class MysqlUtil(object):
         self.conn.rollback()
         logger.info('Transaction execution failed, rollback transaction')
 
-    def check_table_exists(self, db_name, tb_name):  # db_name数据库名称，tb_name数据表名称
+    def check_table_exists(self, db_name, tb_name):
         """
         Checks whether the data table exists. If it exists, it returns True; if it does not exist, it returns False
         :param db_name: Database name
