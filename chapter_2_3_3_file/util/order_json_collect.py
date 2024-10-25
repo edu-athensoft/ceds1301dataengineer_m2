@@ -41,18 +41,15 @@ metadata_util.check_table_exists_and_create(
 )
 
 # Get the list of Json file paths that have been collected in the metadata
-# sql = f"select * from {conf.orders_json_file_monitor_meta_table_name}"
-# processed_json_files_result = metadata_util.query(sql)  # ((1, 'x00'), (2, 'x01'), (3, 'x02'))
-
 processed_json_files_result = mysql_util.get_processed_files(
     util=metadata_util,
     db_name=conf.metadata_db,
     tb_name=conf.orders_json_file_monitor_meta_table_name,
     tb_cols=conf.orders_json_file_monitor_meta_table_create_cols
 )
-processed_json_files_names = [i[1] for i in processed_json_files_result]
+
 # Compare and determine the new order files to be collected
-new_json_files = file_util.get_new_by_compare_lists(processed_json_files_names, all_json_files)
+new_json_files = file_util.get_new_by_compare_lists(processed_json_files_result, all_json_files)
 
 # Collect data for the new order JSON file to be collected
 # Create a target database connection object
