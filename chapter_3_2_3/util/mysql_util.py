@@ -121,7 +121,7 @@ class MysqlUtil(object):
         else:
             logger.info(f'{tb_name} already exists in database {db_name}, skip creation')
 
-    def query_all(self, db_name, tb_name, limit=None):
+    def query_with_limit(self, db_name, tb_name, limit=None):
         """
         Perform a full table query on a data table
         :param db_name:
@@ -206,7 +206,7 @@ def get_processed_files(util: MysqlUtil, db_name, tb_name, tb_cols):
         tb_name=tb_name,
         tb_cols=tb_cols
     )
-    results = util.query_all(db_name, tb_name)
+    results = util.query_with_limit(db_name, tb_name)
 
     for result in results:
         new_list.append(result[1])

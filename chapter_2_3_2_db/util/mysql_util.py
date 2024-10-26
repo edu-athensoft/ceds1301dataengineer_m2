@@ -120,7 +120,7 @@ class MysqlUtil(object):
         else:
             logger.info(f'{tb_name} already exists in database {db_name}, skip creation')
 
-    def query_all(self, db_name, tb_name, limit=None):
+    def query_with_limit(self, db_name, tb_name, limit=None):
         """
         Perform a full table query on a data table
         :param db_name:

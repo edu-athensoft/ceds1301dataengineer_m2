@@ -29,5 +29,5 @@ class TestMySQLUtil(unittest.TestCase):
         :return:
         """
         self.util.insert_sql('insert into chapter_2_3_1_log.students values (1, "Tom");')
-        result = self.util.query_all(db_name='chapter_2_3_1_log', tb_name='students')  # ((), (), ())
+        result = self.util.query_with_limit(db_name='chapter_2_3_1_log', tb_name='students')  # ((), (), ())
         self.assertEqual((1, 'Tom'), result[0])
