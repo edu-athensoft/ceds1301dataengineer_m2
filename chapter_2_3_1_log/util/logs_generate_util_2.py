@@ -19,19 +19,13 @@ backend_files_name = ['barcode_service.py', 'orders_service.py', 'shop_manager.p
                       'user_manager.py', 'goods_manager.py', 'base_network.py', 'event.py']
 
 visitor_areas = {
-    'beijing': ['haidian district', 'daxing district', 'fengtai district', 'chaoyang district', 'changping district', 'haidian district', 'huairou district'],
-    'shanghai': ['jingan district', 'huangpu district', 'xuhui district', 'putuo district', 'yangpu district', 'baoshan district', 'pudong district', 'pudong district'],
-    'chongqing': ['wanzhou district', 'wanzhou district', 'fuling district', 'yuzhong district', 'shapingba district', 'jiulongpo district', 'nanan district'],
-    'tianjin': ['heping district', 'hedong district', 'hexi district', 'wuqing district', 'baodi district'],
-    'jiangsu': ['nanjing city', 'nanjing city', 'nanjing city', 'suzhou city', 'suzhou city', 'wuxi city', 'changzhou city', 'suqian city', 'zhangjiagang city'],
-    'anhui': ['buyang city', 'buyang city', 'liuan city', 'hefei city', 'hefei city', 'hefei city', 'chizhou city', 'tongling city', 'wuhu city'],
-    'shandong': ['jinan city', 'jinan city', 'qingdao city', 'qingdao city', 'qingdao city', 'heze city'],
-    'hubei': ['wuhan city', 'wuhan city', 'wuhan city', 'shiyan city', 'jinzhou city', 'enshi'],
-    'guangdong': ['guangzhou city', 'guangzhou city', 'guangzhou city', 'shenzhen city', 'shenzhen city', 'shenzhen city', 'zhuhai city'],
-    'hunan': ['changsha city', 'changsha city', 'changsha city', 'changsha city', 'changsha city', 'changsha city', 'changsha city', 'zhuzhou city', 'zhangjiajie city', 'changde city', 'yiyang city'],
-    'zhejiang': ['hangzhou city', 'hangzhou city', 'huzhou city', 'shaoxing city', 'zhoushan city', 'jinhua city', 'jiaxing city', 'lishui city']
+    'California': ['Los Angeles', 'San Francisco', 'San Diego', 'Oakland'],
+    'Texas': ['Houston', 'San Antonio', 'Dallas', 'Austin'],
+    'Arizona': ['Phoenix', 'Tucson'],
+    'Illinois': ['Chicago', 'Aurora'],
+    'New York': ['New York City', 'Buffalo']
 }
-visitor_province = ['beijing', 'shanghai', 'chongqing', 'jiangsu', 'anhui', 'shandong', 'hubei', 'guangdong', 'tianjin', 'hunan', 'zhejiang']
+visitor_state = ['California', 'Texas', 'Arizona', 'Illinois', 'New York']
 
 # weight 30:1 as [1] * 30 + [0]
 response_flag = [1, 0]
