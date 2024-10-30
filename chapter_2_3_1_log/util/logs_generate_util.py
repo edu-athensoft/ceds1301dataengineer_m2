@@ -13,26 +13,20 @@ generate_files = 1  # How many files are generated in one run
 single_log_lines = 5  # How many lines of data does a logs file generate
 
 output_path = conf.logs_monitor_path
-log_level_array = ['WARN', 'WARN', 'WARN', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO',
-                   'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO',
-                   'ERROR']
+log_level_array = ['WARN', 'INFO', 'ERROR']
 
-module_name = ['logout.py', 'logout.py', 'logout.py',
-                      'orders.py', 'orders.py', 'orders.py', 'orders.py',
-                      'manager.py', 'manager.py',
-                      'user.py', 'user.py', 'user.py',
-                      'goods.py', 'goods.py', 'goods.py', 'goods.py',
-                      'login.py', 'login.py',
-                      'event.py', 'event.py', 'event.py', 'event.py']
+file_name_array = ['barcode_service.py', 'orders_service.py', 'shop_manager.py',
+                   'user_manager.py', 'goods_manager.py', 'base_network.py', 'event.py']
 
-visitor_areas = {
+visitor_areas_array = {
     'California': ['Los Angeles', 'San Francisco', 'San Diego', 'Oakland'],
     'Texas': ['Houston', 'San Antonio', 'Dallas', 'Austin'],
     'Arizona': ['Phoenix', 'Tucson'],
     'Illinois': ['Chicago', 'Aurora'],
     'New York': ['New York City', 'Buffalo']
 }
-visitor_state = ['California', 'Texas', 'Arizona', 'Illinois', 'New York']
+
+visitor_state_array = ['California', 'Texas', 'Arizona', 'Illinois', 'New York']
 
 
 def get_log_str():
@@ -41,12 +35,12 @@ def get_log_str():
     :return:
     """
     date_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
-    log_level = log_level_array[random.randint(0, len(log_level_array) - 1)]
-    file_name = module_name[random.randint(0, len(module_name) - 1)]
+    log_level = random.choice(log_level_array)
+    file_name = random.choice(file_name_array)
     response_time = random.randint(1, 9999)
-    state = visitor_state[random.randint(0, len(visitor_state) - 1)]
-    city = visitor_areas[state][random.randint(0, len(visitor_areas[state]) - 1)]
-    log_str = f"{date_str}\t[{log_level}]\t{file_name}\tResponse Time:{response_time}ms\t{state}\t{city}\t" \
+    state = random.choice(visitor_state_array)
+    city = random.choice(visitor_areas_array[state])
+    log_str = f"{date_str}\t[{log_level}]\t{file_name}\tresponse time:{response_time}ms\t{state}\t{city}\t" \
               f"log info......"
     return log_str
 
