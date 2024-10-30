@@ -81,8 +81,8 @@ for file_path in new_file_list:
     row_total = 0
     try:
         for row_content in open(file_path, 'r', encoding='utf8'):
-            backend_log_model = LogsModel(row_content)
-            target_util.insert_sql_without_commit(backend_log_model.insert_sql())
+            log_model = LogsModel(row_content)
+            target_util.insert_sql_without_commit(log_model.insert_sql())
             row_total += 1
     except Exception as e:
         target_util.rollback_transaction()
