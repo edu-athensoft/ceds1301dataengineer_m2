@@ -23,8 +23,8 @@ def check_null_and_transform(data):
     """
     if check_null(str(data)):
         return ''
-    elif isinstance(data, str):  # 判断左边的变量是否为右边的数据类型 => True or False
-        return data.strip()  # strip()：去除字符串两边的空格
+    elif isinstance(data, str):
+        return data.strip()
     else:
         return data
 
