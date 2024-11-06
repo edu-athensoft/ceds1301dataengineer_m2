@@ -76,7 +76,8 @@ target_util.check_table_exists_and_create(
 # 1. Open the transaction
 # 2. Submit a transaction every 100 cycles (read 100 product data)
 # 3. If the insertion fails, roll back the transaction
-# 4. Define a data_count variable to record the number of products read
+
+# Define a data_buffer_count variable to record the number of products read
 data_buffer_count = 0
 # Manually start transaction operation
 target_util.begin_transaction()
