@@ -113,7 +113,6 @@ for row_data in source_products_table_results:
 if model == None or data_buffer_count == 0:
     pass
 else:
-    # No matter how many data are left, manually submit a transaction
     target_util.commit_transaction()
 
     sql = f"insert into {conf.metadata_products_table_name}(time_record, gather_line_count) values (" \
