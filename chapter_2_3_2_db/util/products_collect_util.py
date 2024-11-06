@@ -107,6 +107,9 @@ for row_data in source_products_table_results:
         # It is convenient to reopen the transaction in advance to prepare for the next transaction processing
         target_util.begin_transaction()
 
+
+# Assume that there are only 101 records in the data table, and the first 100 records have been submitted for transaction, how to deal with the remaining 1 record? 
+# At the end of the loop, no matter how many records are left, no matter whether they meet the multiple of 100, you can submit a transaction at once.
 if model == None or data_buffer_count == 0:
     pass
 else:
