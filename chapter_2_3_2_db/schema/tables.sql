@@ -23,4 +23,3 @@ INSERT INTO `sys_products` VALUES ('2', 'Samsung Galaxy S22', '', '', '', 'Unit'
 INSERT INTO `sys_products` VALUES ('3', 'Sony WH-1000XM4', '', '', '', 'Unit', '', '299.99', '0.0000', '2024-08-08 11:25:37', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_products` VALUES ('4', 'Dell XPS 13', '', '', '', 'Unit', '', '999.99', '0.0000', '2024-08-08 11:25:37', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_products` VALUES ('5', 'Nike Air Max 270', '', '', '', 'Pair', '', '150.00', '0.0000', '2024-08-08 11:25:37', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_products` VALUES ('6', 'xxx', '', '', '', 'Pair', '', '150.00', '0.0000', '2024-08-08 13:25:37', NULL, NULL, NULL, NULL);
