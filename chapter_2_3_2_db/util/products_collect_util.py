@@ -113,6 +113,7 @@ for row_data in source_products_table_results:
 if model == None or data_buffer_count == 0:
     pass
 else:
+    # Suppose we want to collect a total of 101 data, the for loop records the collection operation of 100 data, but there is still 1 data that is not recorded
     target_util.commit_transaction()
 
     sql = f"insert into {conf.metadata_products_table_name}(time_record, gather_line_count) values (" \
