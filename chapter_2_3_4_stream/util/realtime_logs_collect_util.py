@@ -1,5 +1,5 @@
 from chapter_2_3_4_stream.config import project_config as conf
-from chapter_2_3_4_stream.model.backend_logs_model import BackendLogsModel
+from chapter_2_3_4_stream.model.logs_model import LogsModel
 from chapter_2_3_4_stream.util import kafka_consumer_util
 from chapter_2_3_4_stream.util import logging_util
 from chapter_2_3_4_stream.util import mysql_util
@@ -21,11 +21,11 @@ target_util.check_table_exists_and_create(
     tb_cols=conf.target_logs_table_create_cols
 )
 
-kafka_consumer = kafka_consumer_util.KConsumer()
+kafka_consumer = kafka_consumer_util.Consumer()
 for stream_data in kafka_consumer.recv():
     try:
         logger.info(stream_data["value"])
-        backend_log_model = BackendLogsModel(stream_data["value"])
+        backend_log_model = LogsModel(stream_data["value"])
         target_util.insert_sql(backend_log_model.insert_sql())
     except Exception as e:
         logger.error(f"Error processing message: {e}")

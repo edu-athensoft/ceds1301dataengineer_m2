@@ -1,29 +1,29 @@
-import json
 import signal
 import sys
 
-from kafka import KafkaConsumer, KafkaProducer
+from kafka import KafkaConsumer
 from kafka.structs import TopicPartition
 from chapter_2_3_4_stream.util import logging_util
 
 logger = logging_util.init_logger('kafka_consumer')
 
 
-class KConsumer(object):
+class Consumer(object):
     """
     Kafka Consumer
     """
 
+    _topic = "test_topic"
     _server = "localhost:9092"
     _encode = "UTF-8"
 
-    def __init__(self, topics="test_topic", bootstrap_server=None, group_id="start_task", partitions=None, **kwargs):
+    def __init__(self, bootstrap_server=None, group_id="start_task", partitions=None, **kwargs):
         """
         Initialize the kafka consumer;
         1. Set the default kafka topic, node address, consumer group id (use the default value if not passed in)
         2. When you need to set specific parameters, you can directly pass them in kwargs, unpack them and pass them into the original function;
         3. Manually set the offset
-        :param topics: Kafka consumer topics
+        :param topic: Kafka consumer topic
         :param bootstrap_server: Kafka consumer address
         :param group_id: The consumer group id of kafka, the default is start_task, which is mainly the consumer who receives and starts the task_log, and there is only one consumer group id;
         :param partitions: Consumed partitions. When partitions are not used, the default read is all partitions.
@@ -33,11 +33,11 @@ class KConsumer(object):
         if bootstrap_server is None:
             bootstrap_server = [self._server]  # If the kafka cluster is used, write multiple
         self.consumer = KafkaConsumer(bootstrap_servers=bootstrap_server)
-        exist = self.exist_topics(topics)
 
-        # The required topic does not exist, create one
-        if not exist:
-            self.create_topics(topics)
+        is_exists = self.is_topic_exists(self._topic)
+        if not is_exists:
+            logger.error("The topic does not exist, please contact the administrator")
+
         if partitions is not None:
             self.consumer = KafkaConsumer(
                 bootstrap_servers=bootstrap_server,
@@ -46,43 +46,30 @@ class KConsumer(object):
                 # when multiple consumers are expanded, it needs to be expanded;
                 **kwargs
             )
-            # print("指定分区信息:", partitions, topics, type(partitions))
-            self.topic_set = TopicPartition(topics, int(partitions))
+            # Creating a TopicPartition Object
+            self.topic_set = TopicPartition(self._topic, int(partitions))
+            # Assigning a specific partition
             self.consumer.assign([self.topic_set])
         else:
             # By default, all partitions under the topic are read,
             # but this operation does not support custom offsets because the offset must be in the specified partition;
             self.consumer = KafkaConsumer(
-                topics,
+                self._topic,
                 bootstrap_servers=bootstrap_server,
                 group_id=group_id,
                 **kwargs
             )
 
-    def exist_topics(self, topics):
+    def is_topic_exists(self, topic):
         """
         Check if the topic in kafka exists;
-        :param topics:
+        :param topic:
         :return: True means existence, False means non-existence;
         """
         topics_set = set(self.consumer.topics())
-        if topics not in topics_set:
+        if topic not in topics_set:
             return False
         return True
-
-    def create_topics(self, topics):
-        """
-        Create relevant kafka topic information
-        :param topics:
-        :return:
-        """
-        producer = KafkaProducer(
-            bootstrap_servers=self._server,
-            key_serializer=lambda k: json.dumps(k).encode('utf-8'),
-            value_serializer=lambda v: json.dumps(v).encode("utf-8")
-        )
-        producer.send(topics, key="start", value={"msg": "aaaa"})
-        producer.close()
 
     def recv(self):
         """
@@ -97,9 +84,10 @@ class KConsumer(object):
                 yield {"topic": message.topic, "partition": message.partition, "key": message.key,
                        "value": message.value.decode(self._encode)}
         except Exception as e:
-            logger.error(f"Error occurred: {e}")
+            logger.error(f"error is: {e}")
         finally:
             self.consumer.close()
+
 
     def recv_seek(self, offset):
         """
@@ -108,16 +96,16 @@ class KConsumer(object):
         :return: Producer of consumer messages
         """
         try:
+            #Set the consumer to a specific offset
             self.consumer.seek(self.topic_set, offset)
             for message in self.consumer:
                 yield {"topic": message.topic, "partition": message.partition, "key": message.key,
                        "value": message.value.decode(self._encode)}
         except Exception as e:
-            logger.error(f"Error occurred: {e}")
+            logger.error(f"error is: {e}")
         finally:
             self.consumer.close()
 
-    # 定义信号处理函数
     def signal_handler(self, sig, frame):
         """
         Define the signal processing function
@@ -125,17 +113,11 @@ class KConsumer(object):
         :param frame:
         :return:
         """
-        print('Gracefully stopping consumer...')
+        logger.error('gracefully stopping consumer...')
         self.consumer.close()  # 关闭消费者
         sys.exit(0)
 
-    # 绑定信号处理函数到 SIGINT 和 SIGTERM
+    # Register a signal handler to capture SIGINT (Ctrl+C) and SIGTERM
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
 
-
-if __name__ == '__main__':
-    obj = KConsumer()
-    for i in obj.recv():
-        print(i)
-        print(i["value"])

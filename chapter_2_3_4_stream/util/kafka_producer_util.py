@@ -1,42 +1,34 @@
-import json
 import kafka
+from chapter_2_3_4_stream.util import logging_util
+
+logger = logging_util.init_logger('kafka_producer')
 
 
 class Producer(object):
     """
-    Kafka producer model
+    Kafka producer
     """
-    _coding = "utf-8"
+    _topic = "test_topic"
+    _server = "localhost:9092"
+    _encode = "UTF-8"
 
     def __init__(self,
-                 broker='localhost:9092',
-                 topic="test_topic",
-                 max_request_size=104857600,
-                 batch_size=0,  # 即时发送,提高并发可以适当增加,但是会造成消息的延迟;
+                 max_request_size=104857600, # config setting specifies the maximum size (in bytes) of a request that the server will accept
+                 batch_size=0,  # Instant sending, increasing concurrency can be increased appropriately, but it will cause message delays;
                  **kwargs):
         """
         Initialize and set the kafka producer connection object;
         if the parameter does not exist, use the default connection in the configuration file;
         """
-        self.broker = broker
-        self.topic = topic
+        # self.broker = self._server
+        # self.topic = self._topic
         self.max_request_size = max_request_size
 
         # Instantiate the producer object
-        self.producer_json = kafka.KafkaProducer(
-            bootstrap_servers=self.broker,
-            max_request_size=self.max_request_size,
-            batch_size=batch_size,
-            key_serializer=lambda k: json.dumps(k).encode(self._coding),  # Set the key format to use an anonymous function to convert
-            value_serializer=lambda v: json.dumps(v).encode(self._coding),  # When you need to use json transmission, you must add these two parameters
-            **kwargs
-        )
-
         self.producer = kafka.KafkaProducer(
-            bootstrap_servers=broker,
+            bootstrap_servers=self._server,
             max_request_size=self.max_request_size,
             batch_size=batch_size,
-            api_version=(0, 10, 1),
             **kwargs
         )
 
@@ -47,30 +39,16 @@ class Producer(object):
         :param partition: Kafka partition, send the message to the specified partition
         :return:
         """
-        future = self.producer.send(self.topic, message, partition=partition)
+        future = self.producer.send(self._topic, message, partition=partition)
         record_metadata = future.get(timeout=30)
         if future.failed():
-            raise Exception("send message failed:%s)" % future.exception)
-
-    def send_json(self, key: str, value: dict, partition: int = 0):
-        """
-        Send data in json format
-        :param key: The value of the key in kafka
-        :param value: Specific message sent
-        :param partition: Partition information
-        :return:
-        """
-        future = self.producer_json.send(self.topic, key=key, value=value, partition=partition)
-        record_metadata = future.get(timeout=30)
-        if future.failed():  # 发送失败记录异常;
-            raise Exception("send json message failed:%s)" % future.exception)
+            logger.error(f"error is: {future.exception}")
 
     def close(self):
         """
         Close the kafka connection
         :return:
         """
-        self.producer_json.close()
         self.producer.close()
 
 

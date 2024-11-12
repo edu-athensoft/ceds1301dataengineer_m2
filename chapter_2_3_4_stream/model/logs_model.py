@@ -1,7 +1,7 @@
 from chapter_2_3_4_stream.config import project_config as conf
 
 
-class BackendLogsModel(object):
+class LogsModel(object):
     """
     Log information model class
     """
@@ -17,8 +17,8 @@ class BackendLogsModel(object):
         self.log_time = data[0]
         self.log_level = data[1].strip('[]')
         self.log_module = data[2]
-        self.response_time = data[3][5:-2]
-        self.province = data[4]
+        self.response_time = data[3][14:-2]
+        self.state = data[4]
         self.city = data[5]
         self.log_text = data[6]
 
@@ -27,11 +27,11 @@ class BackendLogsModel(object):
         Generate SQL statement to insert data
         """
         return f'insert into {conf.target_logs_table_name}(' \
-               f'log_time, log_level, log_module, response_time, province, city, log_text)' \
+               f'log_time, log_level, log_module, response_time, state, city, log_text)' \
                f' values("{self.log_time}",' \
                f'"{self.log_level}",' \
                f'"{self.log_module}",' \
                f'"{self.response_time}",' \
-               f'"{self.province}",' \
+               f'"{self.state}",' \
                f'"{self.city}",' \
                f'"{self.log_text}");'
