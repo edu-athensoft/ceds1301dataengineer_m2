@@ -24,3 +24,8 @@ target_logs_table_create_cols = "id int PRIMARY KEY AUTO_INCREMENT COMMENT 'Auto
                                 "city VARCHAR(30) COMMENT 'Visitor city', " \
                                 "log_text VARCHAR(255) COMMENT 'Log text', " \
                                 "INDEX(log_time)"
+
+kafka_topic = "test_topic"
+kafka_server = "localhost:9092"
+kafka_encode = "UTF-8"
+kafka_group_id = "start_task"

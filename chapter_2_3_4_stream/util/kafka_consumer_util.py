@@ -4,6 +4,7 @@ import sys
 from kafka import KafkaConsumer
 from kafka.structs import TopicPartition
 from chapter_2_3_4_stream.util import logging_util
+from chapter_2_3_4_stream.config import project_config as conf
 
 logger = logging_util.init_logger('kafka_consumer')
 
@@ -12,12 +13,7 @@ class Consumer(object):
     """
     Kafka Consumer
     """
-
-    _topic = "test_topic"
-    _server = "localhost:9092"
-    _encode = "UTF-8"
-
-    def __init__(self, bootstrap_server=None, group_id="start_task", partitions=None, **kwargs):
+    def __init__(self, bootstrap_server=None, group_id=conf.kafka_group_id, partitions=None, **kwargs):
         """
         Initialize the kafka consumer;
         1. Set the default kafka topic, node address, consumer group id (use the default value if not passed in)
@@ -31,12 +27,13 @@ class Consumer(object):
         """
 
         if bootstrap_server is None:
-            bootstrap_server = [self._server]  # If the kafka cluster is used, write multiple
+            bootstrap_server = [conf.kafka_server]  # If the kafka cluster is used, write multiple
         self.consumer = KafkaConsumer(bootstrap_servers=bootstrap_server)
 
-        is_exists = self.is_topic_exists(self._topic)
+        is_exists = self.is_topic_exists(conf.kafka_topic)
         if not is_exists:
             logger.error("The topic does not exist, please contact the administrator")
+            exit("The topic does not exist, please contact the administrator")
 
         if partitions is not None:
             self.consumer = KafkaConsumer(
@@ -47,14 +44,14 @@ class Consumer(object):
                 **kwargs
             )
             # Creating a TopicPartition Object
-            self.topic_set = TopicPartition(self._topic, int(partitions))
+            self.topic_set = TopicPartition(conf.kafka_topic, int(partitions))
             # Assigning a specific partition
             self.consumer.assign([self.topic_set])
         else:
             # By default, all partitions under the topic are read,
             # but this operation does not support custom offsets because the offset must be in the specified partition;
             self.consumer = KafkaConsumer(
-                self._topic,
+                conf.kafka_topic,
                 bootstrap_servers=bootstrap_server,
                 group_id=group_id,
                 **kwargs
@@ -82,12 +79,11 @@ class Consumer(object):
                 # The producer message will be cached in the message queue and will not be deleted,
                 # so each message will have an offset in the message queue.
                 yield {"topic": message.topic, "partition": message.partition, "key": message.key,
-                       "value": message.value.decode(self._encode)}
+                       "value": message.value.decode(conf.kafka_encode)}
         except Exception as e:
             logger.error(f"error is: {e}")
         finally:
             self.consumer.close()
-
 
     def recv_seek(self, offset):
         """
@@ -100,7 +96,7 @@ class Consumer(object):
             self.consumer.seek(self.topic_set, offset)
             for message in self.consumer:
                 yield {"topic": message.topic, "partition": message.partition, "key": message.key,
-                       "value": message.value.decode(self._encode)}
+                       "value": message.value.decode(conf.kafka_encode)}
         except Exception as e:
             logger.error(f"error is: {e}")
         finally:
