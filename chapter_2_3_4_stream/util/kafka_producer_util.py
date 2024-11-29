@@ -21,14 +21,13 @@ class Producer(object):
             bootstrap_servers=conf.kafka_server
         )
 
-    def send(self, message: bytes, partition: int = 0):
+    def send(self, message: bytes):
         """
         Send a message
         :param message: Byte stream data, encode the string into UTF-8 format
-        :param partition: Kafka partition, send the message to the specified partition
         :return:
         """
-        future = self.producer.send(conf.kafka_topic, message, partition=partition)
+        future = self.producer.send(conf.kafka_topic, message)
         record_metadata = future.get(timeout=30)
         if future.failed():
             logger.error(f"error is: {future.exception}")

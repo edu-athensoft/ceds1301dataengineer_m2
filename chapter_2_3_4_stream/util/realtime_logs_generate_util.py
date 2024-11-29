@@ -4,8 +4,9 @@ A simulated data generator for backend services to write logs
 import datetime
 import random
 import time
-from chapter_2_3_1_log.util import logging_util
+from chapter_2_3_4_stream.util import logging_util
 from chapter_2_3_4_stream.util import kafka_producer_util
+from chapter_2_3_4_stream.config import project_config as conf
 
 logger = logging_util.init_logger('logs_generate')
 
@@ -50,7 +51,7 @@ for i in range(0, generate_files):
     for j in range(single_log_lines):
         log_str = get_log_str()
         logger.info(f"log is: {log_str}")
-        kafka_producer.send(log_str.encode())
+        kafka_producer.send(log_str.encode(conf.kafka_encode))
 
     time.sleep(1)
 
