@@ -11,22 +11,14 @@ class Producer(object):
     Kafka producer
     """
 
-    def __init__(self,
-                 max_request_size=104857600, # config setting specifies the maximum size (in bytes) of a request that the server will accept
-                 batch_size=0,  # Instant sending, increasing concurrency can be increased appropriately, but it will cause message delays;
-                 **kwargs):
+    def __init__(self):
         """
         Initialize and set the kafka producer connection object;
         if the parameter does not exist, use the default connection in the configuration file;
         """
-        self.max_request_size = max_request_size
-
         # Instantiate the producer object
         self.producer = kafka.KafkaProducer(
-            bootstrap_servers=conf.kafka_server,
-            max_request_size=max_request_size,
-            batch_size=batch_size,
-            **kwargs
+            bootstrap_servers=conf.kafka_server
         )
 
     def send(self, message: bytes, partition: int = 0):

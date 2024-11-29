@@ -13,7 +13,9 @@ class Consumer(object):
     """
     Kafka Consumer
     """
-    def __init__(self, bootstrap_server=None, group_id=conf.kafka_group_id, partitions=None, **kwargs):
+    def __init__(self, bootstrap_server=None,
+                 group_id=conf.kafka_group_id,
+                 partitions=None):
         """
         Initialize the kafka consumer;
         1. Set the default kafka topic, node address, consumer group id (use the default value if not passed in)
@@ -38,10 +40,7 @@ class Consumer(object):
         if partitions is not None:
             self.consumer = KafkaConsumer(
                 bootstrap_servers=bootstrap_server,
-                group_id=group_id,
-                # urrently there is only one consumer, and it needs to be modified depending on the situation;
-                # when multiple consumers are expanded, it needs to be expanded;
-                **kwargs
+                group_id=group_id
             )
             # Creating a TopicPartition Object
             self.topic_set = TopicPartition(conf.kafka_topic, int(partitions))
@@ -53,8 +52,7 @@ class Consumer(object):
             self.consumer = KafkaConsumer(
                 conf.kafka_topic,
                 bootstrap_servers=bootstrap_server,
-                group_id=group_id,
-                **kwargs
+                group_id=group_id
             )
 
     def is_topic_exists(self, topic):
