@@ -72,7 +72,7 @@ class Consumer(object):
         :return:
         """
         logger.error('gracefully stopping consumer...')
-        self.consumer.close()  # 关闭消费者
+        self.consumer.close()
         sys.exit(0)
 
     # Register a signal handler to capture SIGINT (Ctrl+C) and SIGTERM
